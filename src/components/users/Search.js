@@ -1,44 +1,34 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 
-class Search extends Component {
+const Search = ({showClear,clearUser,searchUsers, setAlert}) => {
 
-    state = {
-        text: ''
+    const [text, setText] = useState('');
+
+    const onChange = (e) => {
+        setText(e.target.value);
     };
 
-    static propTypes = {
-        searchUsers: PropTypes.func.isRequired,
-        clearUser: PropTypes.func.isRequired,
-        showClear: PropTypes.bool.isRequired,
-
-    };
-
-    onChange = (e) => {
-        this.setState({[e.target.name]:e.target.value})
-    };
-
-    onSubmit = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
-        this.props.searchUsers(this.state.text);
-        this.setState({text:''})
+        if(text===''){
+             setAlert('Your serch field is empty', 'light');
+        }else{
+            searchUsers(text);
+            setText('')
+        }
+
     };
-
-    render() {
-
-        const {text} = this.state;
-        const {showClear,clearUser} = this.props;
-
         return (
             <div>
-                <form onSubmit={this.onSubmit} className="form">
+                <form onSubmit={onSubmit} className="form">
                     <input
                         type="text"
                         name="text"
                         placeholder="Search users..."
                         value={text}
-                        onChange={this.onChange}
+                        onChange={onChange}
                     />
                     <input
                         type="submit"
@@ -53,7 +43,13 @@ class Search extends Component {
                 </button>)}
             </div>
         );
-    }
-}
+};
+
+Search.propTypes = {
+    searchUsers: PropTypes.func.isRequired,
+    clearUser: PropTypes.func.isRequired,
+    showClear: PropTypes.bool.isRequired,
+    setAlert:PropTypes.func.isRequired
+};
 
 export default Search;
