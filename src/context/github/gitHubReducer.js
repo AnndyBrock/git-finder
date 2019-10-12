@@ -1,6 +1,5 @@
 import {
     SEARCH_USERS,
-    SET_ALERT,
     SET_LOADING,
     GET_REPOS,
     GET_USER, CLEAR_USERS

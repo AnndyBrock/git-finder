@@ -7,7 +7,6 @@ import './App.css';
 import Search from "./components/users/Search";
 import Alert from "./components/layout/Alert";
 import UserDetails from "./components/users/UserDetails";
-
 import GitGubState from './context/github/GitHubState';
 import AlertState from './context/alert/AlertState';
 
