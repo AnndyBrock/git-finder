@@ -1,8 +1,12 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useContext} from 'react';
+import GitHibContext from '../../context/github/gitHubContext';
+import AlertContext from '../../context/alert/alertContext';
 
 
-const Search = ({showClear,clearUser,searchUsers, setAlert}) => {
+const Search = () => {
+
+    const gitHubContext = useContext(GitHibContext);
+    const alertContext = useContext(AlertContext);
 
     const [text, setText] = useState('');
 
@@ -13,9 +17,9 @@ const Search = ({showClear,clearUser,searchUsers, setAlert}) => {
     const onSubmit = (e) => {
         e.preventDefault();
         if(text===''){
-             setAlert('Your serch field is empty', 'light');
+            alertContext.setAlert('Your serch field is empty', 'light');
         }else{
-            searchUsers(text);
+            gitHubContext.searchUsers(text);
             setText('')
         }
 
@@ -36,20 +40,13 @@ const Search = ({showClear,clearUser,searchUsers, setAlert}) => {
                         className="btn btn-dark btn-block"
                     />
                 </form>
-                {showClear && (
+                {gitHubContext.users.length>0 && (
                 <button
                     className="btn btn-light btn-block"
-                    onClick={clearUser}>Clear
+                    onClick={gitHubContext.clearUser}>Clear
                 </button>)}
             </div>
         );
-};
-
-Search.propTypes = {
-    searchUsers: PropTypes.func.isRequired,
-    clearUser: PropTypes.func.isRequired,
-    showClear: PropTypes.bool.isRequired,
-    setAlert:PropTypes.func.isRequired
 };
 
 export default Search;
